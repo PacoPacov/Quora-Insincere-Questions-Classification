@@ -1,0 +1,5 @@
+model_name,accuracy,f1,precision,recall,location_model
+sgdclassifier_downsampling,0.8376686053706225,0.8377970670425601,0.8465267366316842,0.8292456063053801,C:\Users\C18244A\Documents\Quora-Insincere-Questions-Classification\models\sgdclassifier_downsampling.pickle
+linearSVC_downsampling,0.880287093181537,0.8815940858240924,0.8816588327457893,0.8815293484114163,C:\Users\C18244A\Documents\Quora-Insincere-Questions-Classification\models\linearSVC_downsampling.pickle
+logisticregression_downsampling,0.8807325826011633,0.8819017277294449,0.8829620178624006,0.8808439810055319,C:\Users\C18244A\Documents\Quora-Insincere-Questions-Classification\models\logisticregression_downsampling.pickle
+decisiontree_downsampling,0.7774780348966712,0.7586114317931645,0.8399524375743163,0.6916336221667401,C:\Users\C18244A\Documents\Quora-Insincere-Questions-Classification\models\decisiontree_downsampling.pickle
