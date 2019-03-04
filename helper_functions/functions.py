@@ -12,6 +12,7 @@ from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.utils import resample
+from helper_functions.custom_transformers import FactorExctractor
 
 
 def downsampling(majority: pd.DataFrame, minority: pd.DataFrame, replace: bool = True) -> pd.DataFrame:
