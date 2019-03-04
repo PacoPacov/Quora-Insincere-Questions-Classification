@@ -1,5 +1,6 @@
 import csv
 import datetime
+import itertools
 import os
 import pickle
 
@@ -43,9 +44,7 @@ def upsampling(majority: pd.DataFrame, minority: pd.DataFrame, replace: bool = T
     return pd.concat([minority_upsampled, majority])
 
 
-def plot_confusion_matrix(cm, classes,
-                          normalize=False,
-                          title='Confusion matrix',
+def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', 
                           cmap=plt.cm.Blues):
     """ This function prints and plots the confusion matrix.
     :param cm: Confusion Matrix object
@@ -54,7 +53,6 @@ def plot_confusion_matrix(cm, classes,
     :param title="Confusion matrix": Title of the plot.
     :param cmap=plt.cm.Blues: Color map of the plot.
     """
-    import itertools
 
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -105,22 +103,26 @@ def train_model(pipeline: Pipeline, train_set: pd.DataFrame,
     y_predict = model.predict(X_test)
     print("F1 score: ", f1_score(y_test, y_predict))
 
-    if export_path:
-        log_model(y_test, y_predict, export_path,
-                  training_time=training_time, training_size=X_train.shape[0])
-        export_model(model, export_path)
-
     conf_matrix = confusion_matrix(y_predict, y_test)
 
     # Compute confusion matrix
     cnf_matrix = conf_matrix
-    class_names = ['0', '1']
+    class_names = y_test.unique().tolist()
     np.set_printoptions(precision=2)
 
     # Plot normalized confusion matrix
     plt.figure()
     plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
                           title='Normalized confusion matrix')
+
+    if export_path:
+        log_model(y_test, y_predict, export_path,
+                  training_time=training_time, training_size=X_train.shape[0])
+        export_model(model, export_path)
+        dir_name, file_name = os.path.split(export_path)
+        output_name = file_name.split('.')[0]
+        # saves the plot
+        plt.savefig(os.path.join(dir_name, output_name + "_confusion_matrix.png"))
 
     plt.show()
 
@@ -142,7 +144,7 @@ def log_model(y_true: pd.Series, y_pred: pd.Series, export_path: str,
     :param training_size: Size of the training data
 
     Example:
-    If export_path = "../proj_dir/exported_models/awsome_model.pkl"
+    If export_path = "../proj_dir/exported_models/awesome_model.pkl"
     The location of the log file will be "../proj_dir/models/log_models.csv"
     """
     PATH = "../models/"
