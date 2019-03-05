@@ -10,7 +10,7 @@ from nltk.corpus import stopwords
 from helper_functions import FactorExctractor, load_model
 
 
-def find_number_of_type_in_text(text):
+def find_types_of_sents_in_text(text):
     """ Tokenizes the question text into sentences and finds the different types of sentences.
     :param text: Text that will be processed.
     """
@@ -40,7 +40,7 @@ def data_prep(df:pd.DataFrame):
     df['tokens_len'] = df['tokens'].apply(len)
     df['clean_text'] = df['tokens'].apply(' '.join)
 
-    df['unique_sents_type'] = df['question_text'].apply(find_number_of_type_in_text)
+    df['unique_sents_type'] = df['question_text'].apply(find_types_of_sents_in_text)
     df['number_of_questions_in_text'] = df['unique_sents_type'].apply(lambda x: x.get('?', 0))
 
     return df[['tokens_len', 'number_of_questions_in_text', 'clean_text']]
