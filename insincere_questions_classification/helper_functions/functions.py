@@ -12,10 +12,10 @@ from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.utils import resample
-from helper_functions.custom_transformers import FactorExctractor
+from .custom_transformers import FactorExctractor
 
 
-def downsampling(majority: pd.DataFrame, minority: pd.DataFrame, replace: bool = True) -> pd.DataFrame:
+def downsampling(majority, minority, replace=True):
     """ Downsampling the dataset.
     :param majority: Majority dataset.
     :param minority: Minority dataset.
@@ -30,7 +30,7 @@ def downsampling(majority: pd.DataFrame, minority: pd.DataFrame, replace: bool =
     return pd.concat([majority_downsampled, minority])
 
 
-def upsampling(majority: pd.DataFrame, minority: pd.DataFrame, replace: bool = True) -> pd.DataFrame:
+def upsampling(majority, minority, replace=True):
     """ Upsampling the dataset.
     :param majority: Majority dataset.
     :param minority: Minority dataset.
@@ -80,9 +80,9 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
     plt.tight_layout()
 
 
-def train_model(pipeline: Pipeline, train_set: pd.DataFrame,
-                input_cols=['question_text', 'tokens_len'], target_col: str = 'target',
-                export_path: str = None):
+def train_model(pipeline, train_set,
+                input_cols=['question_text', 'tokens_len'], target_col='target',
+                export_path=None):
     """ Helper Function for easier training, evaluating and exporting of a model.
     :param pipeline: Pipeline object that will be trained.
     :param train_set: Dataset that will be used to train the model.
@@ -130,8 +130,7 @@ def train_model(pipeline: Pipeline, train_set: pd.DataFrame,
     return model
 
 
-def log_model(y_true: pd.Series, y_pred: pd.Series, export_path: str,
-              training_time: datetime = None, training_size: int = None)->None:
+def log_model(y_true, y_pred, export_path, training_time=None, training_size=None):
     """
     Helper function that saves the information of each model that is being exported.
     The csv file will contains following columns:

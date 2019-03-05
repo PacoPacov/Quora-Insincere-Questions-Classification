@@ -7,7 +7,7 @@ import nltk
 import pandas as pd
 from nltk.corpus import stopwords
 
-from helper_functions import FactorExctractor, load_model
+from insincere_questions_classification.helper_functions import load_model, FactorExctractor
 
 
 def find_types_of_sents_in_text(text):
@@ -31,7 +31,7 @@ def clean_raw_data(text):
     return tokens
 
 
-def data_prep(df:pd.DataFrame):
+def data_prep(df):
     """ Prepped the data by removing stop_words and punctuation and creating
     to additional features 'tokens_len' and 'number_of_questions_in_text'.
     :param df: Dataset that will be prepped.
@@ -67,8 +67,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Script uses model to evaluate if text is insincere or not.')
 
-    parser.add_argument('--text', required=True,
-        help='Text that will be evaluated.')
+    parser.add_argument('--text', required=True, help='Text that will be evaluated.')
 
     args = parser.parse_args()
 
