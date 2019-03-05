@@ -1,6 +1,5 @@
 import os
 import pickle
-import sys
 from collections import Counter
 from string import punctuation
 
@@ -8,11 +7,7 @@ import nltk
 import pandas as pd
 from nltk.corpus import stopwords
 
-# that way you can import the helper_functions
-sys.path.append(os.path.abspath("../"))
 from helper_functions import FactorExctractor, load_model
-
-
 
 
 def find_number_of_type_in_text(text):
@@ -45,23 +40,26 @@ def data_prep(df:pd.DataFrame):
     df['tokens_len'] = df['tokens'].apply(len)
     df['clean_text'] = df['tokens'].apply(' '.join)
 
-    unique_sents = df['question_text'].apply(find_number_of_type_in_text)
-    df['number_of_questions_in_text'] = [tok.get('?', 0) for tok in unique_sents.tolist()]
+    df['unique_sents_type'] = df['question_text'].apply(find_number_of_type_in_text)
+    df['number_of_questions_in_text'] = df['unique_sents_type'].apply(lambda x: x.get('?', 0))
 
     return df[['tokens_len', 'number_of_questions_in_text', 'clean_text']]
 
 
 def make_prediction(text):
     """ Makes prediction on a given text.
-    :param text: text that will be evaluated if it's Insincere or not.
-    :param type_model: 
+    :param text: text that will be evaluated if it's Insincere or not. 
     """
-    path = os.path.abspath("../models/decisiontree_adv.pickle")
-    model = load_model(path)
-    df = pd.DataFrame([text], columns=['question_text'])
-    data_prep(df)
+    file_path = os.path.abspath(__file__)
+    package_dir = os.path.dirname(os.path.dirname(file_path))
 
-    return model.predict(df)[0]
+    path = os.path.join(package_dir, "models", "sgdclassifier_adv.pickle")
+    model = load_model(path)
+
+    df = pd.DataFrame([text], columns=['question_text'])
+    prepped_df = data_prep(df)
+
+    return model.predict(prepped_df)[0]
 
 
 if __name__ == "__main__":
