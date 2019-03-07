@@ -11,7 +11,6 @@ from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
                              precision_score, recall_score)
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from .custom_transformers import FactorExctractor
 
 
 def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', 
@@ -88,7 +87,7 @@ def train_model(pipeline, train_set,
     if export_path:
         log_model(y_test, y_predict, export_path,
                   training_time=training_time, training_size=X_train.shape[0])
-        export_model(model, export_path)
+        save_model(model, export_path)
         dir_name, file_name = os.path.split(export_path)
         output_name = file_name.split('.')[0]
         # saves the plot
@@ -145,13 +144,13 @@ def log_model(y_true, y_pred, export_path, training_time=None, training_size=Non
                  training_time, datetime.datetime.now(), training_size, export_path]])
 
 
-def export_model(model, path):
+def save_model(model, path):
     """Exports the model to a pickle file.
     :param model: model that will b exported.
     :param path: path where the model will be stored.
     """
     file_name = os.path.basename(path)
-    if not (file_name.endswith('.pickle') and file_name.endswith('.pkl')):
+    if not (file_name.endswith('.pickle') or file_name.endswith('.pkl')):
         raise ValueError(
             "Need to specify the pickle file what the model will be saved in.")
 
@@ -163,7 +162,7 @@ def export_model(model, path):
 
 
 def load_model(path):
-    """Loades model from a pickle file.
+    """Loads model from a pickle file.
     :param path: Path to existing file.
     """
     if not os.path.exists(path):

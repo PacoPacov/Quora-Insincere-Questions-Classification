@@ -7,7 +7,7 @@ import nltk
 import pandas as pd
 from nltk.corpus import stopwords
 
-from insincere_questions_classification import load_model, FactorExctractor
+from insincere_questions_classification import load_model
 
 
 def find_types_of_sents_in_text(text):
@@ -22,11 +22,9 @@ def clean_raw_data(text):
     """ Cleans the raw text from stop_words and punctuation.
     :param text: Variable that contains text.
     """
-    clean_text = nltk.word_tokenize(text)
-
     stop_words = stopwords.words('english')
 
-    tokens = [token for token in clean_text
+    tokens = [token for token in nltk.word_tokenize(text)
               if token not in stop_words and token not in punctuation]
     return tokens
 
@@ -53,7 +51,7 @@ def make_prediction(text):
     file_path = os.path.abspath(__file__)
     package_dir = os.path.dirname(os.path.dirname(file_path))
 
-    path = os.path.join(package_dir, "models", "sgdclassifier_basic.pickle")
+    path = os.path.join(package_dir, "models", "sgdclassifier_adv.pickle")
     model = load_model(path)
 
     df = pd.DataFrame([text], columns=['question_text'])
