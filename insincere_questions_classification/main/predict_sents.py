@@ -7,7 +7,7 @@ import nltk
 import pandas as pd
 from nltk.corpus import stopwords
 
-from insincere_questions_classification.helper_functions import load_model, FactorExctractor
+from insincere_questions_classification import load_model, FactorExctractor
 
 
 def find_types_of_sents_in_text(text):
@@ -53,7 +53,7 @@ def make_prediction(text):
     file_path = os.path.abspath(__file__)
     package_dir = os.path.dirname(os.path.dirname(file_path))
 
-    path = os.path.join(package_dir, "models", "sgdclassifier_adv.pickle")
+    path = os.path.join(package_dir, "models", "sgdclassifier_basic.pickle")
     model = load_model(path)
 
     df = pd.DataFrame([text], columns=['question_text'])
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Script uses model to evaluate if text is insincere or not.')
 
-    parser.add_argument('--text', required=True, help='Text that will be evaluated.')
+    parser.add_argument('--text', required=True, type=str, help='Text that will be evaluated.')
 
     args = parser.parse_args()
 
