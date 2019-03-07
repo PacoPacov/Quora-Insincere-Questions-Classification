@@ -11,38 +11,7 @@ from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
                              precision_score, recall_score)
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.utils import resample
 from .custom_transformers import FactorExctractor
-
-
-def downsampling(majority, minority, replace=True):
-    """ Downsampling the dataset.
-    :param majority: Majority dataset.
-    :param minority: Minority dataset.
-    :param replace=True: Implements resampling with replacement. 
-        If False, this will implement (sliced) random permutations.
-    """
-
-    majority_downsampled = resample(majority,
-                                    replace=replace,
-                                    n_samples=minority.shape[0],
-                                    random_state=123)
-    return pd.concat([majority_downsampled, minority])
-
-
-def upsampling(majority, minority, replace=True):
-    """ Upsampling the dataset.
-    :param majority: Majority dataset.
-    :param minority: Minority dataset.
-    :param replace=True: Implements resampling with replacement. 
-        If False, this will implement (sliced) random permutations.
-    """
-
-    minority_upsampled = resample(minority,
-                                  replace=replace,
-                                  n_samples=majority.shape[0],
-                                  random_state=123)
-    return pd.concat([minority_upsampled, majority])
 
 
 def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', 
@@ -181,7 +150,8 @@ def export_model(model, path):
     :param model: model that will b exported.
     :param path: path where the model will be stored.
     """
-    if not os.path.basename(path).endswith('.pickle'):
+    file_name = os.path.basename(path)
+    if not (file_name.endswith('.pickle') and file_name.endswith('.pkl')):
         raise ValueError(
             "Need to specify the pickle file what the model will be saved in.")
 
