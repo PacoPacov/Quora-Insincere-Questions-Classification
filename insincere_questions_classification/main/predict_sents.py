@@ -4,7 +4,7 @@ import pickle
 import pandas as pd
 
 from insincere_questions_classification import load_model
-from insincere_questions_classification.utils.custom_transformers import DataPrepperator
+from insincere_questions_classification.utils.custom_transformers import DataPreparator
 
 
 def make_prediction(text):
@@ -17,7 +17,7 @@ def make_prediction(text):
     path = os.path.join(package_dir, "models", "sgdclassifier_adv.pickle")
     model = load_model(path)
 
-    prepped_df = DataPrepperator().transform(pd.DataFrame([text], columns=['question_text']))
+    prepped_df = DataPreparator().transform(pd.DataFrame([text], columns=['question_text']))
     return model.predict(prepped_df['question_text'])[0]
 
 

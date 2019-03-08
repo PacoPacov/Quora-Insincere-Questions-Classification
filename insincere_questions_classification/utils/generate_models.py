@@ -6,7 +6,7 @@ from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 
 from insincere_questions_classification.utils.custom_transformers import \
-    FeatureExctractor, DataPrepperator
+    FeatureExctractor, DataPreparator
 from insincere_questions_classification.utils.data_sampling import *
 from insincere_questions_classification.utils.functions import *
 
@@ -26,7 +26,7 @@ classifiers = {
 }
 
 base_pipeline = Pipeline([
-    ('data_prep', DataPrepperator()),
+    ('data_prep', DataPreparator()),
     ('feature_extract', FeatureExctractor('question_text')),
     ('vect', CountVectorizer()),
     ('tfidf', TfidfTransformer()),
@@ -34,7 +34,7 @@ base_pipeline = Pipeline([
 ])
 
 for name, classifier in classifiers.items():
-    export_path = os.path.join(models_dir, f"{name}_basic.pickle")
+    export_path = os.path.abspath(os.path.join(models_dir, f"{name}_basic.pickle"))
     base_pipeline.set_params(clf=classifier)
     model_sgd = train_model(base_pipeline, train_downsampled, 
                             input_cols='question_text', plot=False,
@@ -42,7 +42,7 @@ for name, classifier in classifiers.items():
     print(f"Successfully save the file in {export_path}")
 
 adv_pipeline_= Pipeline([
-    ('data_prep', DataPrepperator()),
+    ('data_prep', DataPreparator()),
     ('union', FeatureUnion(
         transformer_list  = [
             ('numeric_features', Pipeline([
@@ -59,7 +59,7 @@ adv_pipeline_= Pipeline([
 ])
 
 for name, classifier in classifiers.items():
-    export_path = os.path.join(models_dir, f"{name}_adv.pickle")
+    export_path = os.path.abspath(os.path.join(models_dir, f"{name}_adv.pickle"))
     base_pipeline.set_params(clf=classifier)
     model_sgd = train_model(base_pipeline, train_downsampled,
                             input_cols='question_text', plot=False,

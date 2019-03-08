@@ -25,7 +25,7 @@ class FeatureExctractor(BaseEstimator, TransformerMixin):
         return self
 
 
-class DataPrepperator(BaseEstimator, TransformerMixin):
+class DataPreparator(BaseEstimator, TransformerMixin):
     """Custom Transformer that prepares  the data.
     Note: The class expects pd.Series object.
     """
@@ -46,7 +46,7 @@ class DataPrepperator(BaseEstimator, TransformerMixin):
                 if token not in self.stop_words and token not in punctuation]
 
     def transform(self, data):
-        """ Prepped the data by removing stop_words and punctuation and creating
+        """ Prepares the data by removing stop_words and punctuation and creating
         to additional features 'tokens_len' and 'number_of_questions_in_text'.
         :param data: pd.Series containing the question_text.
         """
