@@ -1,4 +1,10 @@
-from sklearn.base import TransformerMixin, BaseEstimator
+from collections import Counter
+from string import punctuation
+
+import nltk
+import pandas as pd
+from nltk.corpus import stopwords
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class FeatureExctractor(BaseEstimator, TransformerMixin):
@@ -14,6 +20,42 @@ class FeatureExctractor(BaseEstimator, TransformerMixin):
 
     def transform(self, dataset):
         return dataset[self.feature]
+
+    def fit(self, *_):
+        return self
+
+
+class DataPrepperator(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        self.stop_words = stopwords.words('english')
+
+    def find_types_of_sents_in_text(self, text):
+        """ Tokenizes the question text into sentences and finds the different types of sentences.
+        :param text: Text that will be processed.
+        """
+        return dict(Counter(map(lambda x: x[-1], nltk.sent_tokenize(text))))
+
+    def clean_raw_data(self, text):
+        """ Cleans the raw text from stop_words and punctuation.
+        :param text: Variable that contains text.
+        """
+        return [token.lower() for token in nltk.word_tokenize(text)
+                if token not in self.stop_words and token not in punctuation]
+
+    def transform(self, dataset):
+        """ Prepped the data by removing stop_words and punctuation and creating
+        to additional features 'tokens_len' and 'number_of_questions_in_text'.
+        :param dataset: Dataset that will be prepped.
+        """
+        tokens = dataset.apply(self.clean_raw_data)
+
+        tokens_len = tokens.apply(len)
+        unique_sents_type = dataset.apply(self.find_types_of_sents_in_text)
+        number_of_questions_in_text = unique_sents_type.apply(lambda x: x.get('?', 0))
+        clean_text = tokens.apply(' '.join)
+
+        return pd.DataFrame([tokens_len, number_of_questions_in_text, clean_text], 
+                             columns=['tokens_len', 'number_of_questions_in_text', data.name])
 
     def fit(self, *_):
         return self

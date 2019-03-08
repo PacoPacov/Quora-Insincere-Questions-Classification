@@ -1,47 +1,9 @@
 import os
 import pickle
-from collections import Counter
-from string import punctuation
 
-import nltk
 import pandas as pd
-from nltk.corpus import stopwords
 
 from insincere_questions_classification import load_model
-
-
-def find_types_of_sents_in_text(text):
-    """ Tokenizes the question text into sentences and finds the different types of sentences.
-    :param text: Text that will be processed.
-    """
-    doc = nltk.sent_tokenize(text)
-    return dict(Counter(map(lambda x: x[-1], doc)))
-
-
-def clean_raw_data(text):
-    """ Cleans the raw text from stop_words and punctuation.
-    :param text: Variable that contains text.
-    """
-    stop_words = stopwords.words('english')
-
-    tokens = [token for token in nltk.word_tokenize(text)
-              if token not in stop_words and token not in punctuation]
-    return tokens
-
-
-def data_prep(df):
-    """ Prepped the data by removing stop_words and punctuation and creating
-    to additional features 'tokens_len' and 'number_of_questions_in_text'.
-    :param df: Dataset that will be prepped.
-    """
-    df['tokens'] = df['question_text'].apply(clean_raw_data)
-    df['tokens_len'] = df['tokens'].apply(len)
-    df['clean_text'] = df['tokens'].apply(' '.join)
-
-    df['unique_sents_type'] = df['question_text'].apply(find_types_of_sents_in_text)
-    df['number_of_questions_in_text'] = df['unique_sents_type'].apply(lambda x: x.get('?', 0))
-
-    return df[['tokens_len', 'number_of_questions_in_text', 'clean_text']]
 
 
 def make_prediction(text):
@@ -55,9 +17,8 @@ def make_prediction(text):
     model = load_model(path)
 
     df = pd.DataFrame([text], columns=['question_text'])
-    prepped_df = data_prep(df)
 
-    return model.predict(prepped_df)[0]
+    return model.predict(df)[0]
 
 
 if __name__ == "__main__":
