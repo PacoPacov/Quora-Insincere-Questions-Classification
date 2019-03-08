@@ -49,7 +49,7 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
 
 
 def train_model(pipeline, train_set,
-                input_cols=['question_text', 'tokens_len'], target_col='target',
+                input_cols=['question_text', 'tokens_len'], target_col='target', plot=True,
                 export_path=None):
     """ Helper Function for easier training, evaluating and exporting of a model.
     :param pipeline: Pipeline object that will be trained.
@@ -57,6 +57,7 @@ def train_model(pipeline, train_set,
     :param input_cols=['question_text', 'tokens_len']: string or list of strings that specifies 
         which columns to be used for training the model.
     :param target_col='target': name of the column that contains the result.
+    :param plot=True: Marks if the method should show the plot.
     :param export_path=None: Optional parameter that specifies where the model should be saved.
         Note that if you set this argument the script will create a file to log the models that
          are exported.
@@ -92,8 +93,8 @@ def train_model(pipeline, train_set,
         output_name = file_name.split('.')[0]
         # saves the plot
         plt.savefig(os.path.join(dir_name, output_name + "_confusion_matrix.png"))
-
-    plt.show()
+    if plot:
+        plt.show()
 
     return model
 
