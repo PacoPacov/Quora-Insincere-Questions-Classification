@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Available Models
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        {% for model in models %}
+        <a class="dropdown-item" href="#">{{ model.file_name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+{%  endblock content %}
