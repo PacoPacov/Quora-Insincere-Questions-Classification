@@ -20,6 +20,8 @@ classifiers = {
 }
 
 base_pipeline = Pipeline([
+    ('data_prep', DataPrepperator()),
+    ('feature_extract', FeatureExctractor('question_text')),
     ('vect', CountVectorizer()),
     ('tfidf', TfidfTransformer()),
     ('clf', SGDClassifier(loss='perceptron', max_iter=100, random_state=42)),
@@ -33,6 +35,7 @@ for name, classifier in classifiers.items():
                             export_path=export_path)
 
 adv_pipeline_= Pipeline([
+    ('data_prep', DataPrepperator()),
     ('union', FeatureUnion(
         transformer_list  = [
             ('numeric_features', Pipeline([

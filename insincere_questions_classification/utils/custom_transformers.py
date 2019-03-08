@@ -18,14 +18,17 @@ class FeatureExctractor(BaseEstimator, TransformerMixin):
     def __init__(self, feature):
         self.feature = feature
 
-    def transform(self, dataset):
-        return dataset[self.feature]
+    def transform(self, data):
+        return data[self.feature]
 
     def fit(self, *_):
         return self
 
 
 class DataPrepperator(BaseEstimator, TransformerMixin):
+    """Custom Transformer that prepares  the data.
+    Note: The class expects pd.Series object.
+    """
     def __init__(self):
         self.stop_words = stopwords.words('english')
 
@@ -42,20 +45,21 @@ class DataPrepperator(BaseEstimator, TransformerMixin):
         return [token.lower() for token in nltk.word_tokenize(text)
                 if token not in self.stop_words and token not in punctuation]
 
-    def transform(self, dataset):
+    def transform(self, data):
         """ Prepped the data by removing stop_words and punctuation and creating
         to additional features 'tokens_len' and 'number_of_questions_in_text'.
-        :param dataset: Dataset that will be prepped.
+        :param data: pd.Series containing the question_text.
         """
-        tokens = dataset.apply(self.clean_raw_data)
+        tokens = data.apply(self.clean_raw_data)
 
         tokens_len = tokens.apply(len)
-        unique_sents_type = dataset.apply(self.find_types_of_sents_in_text)
+        unique_sents_type = data.apply(self.find_types_of_sents_in_text)
         number_of_questions_in_text = unique_sents_type.apply(lambda x: x.get('?', 0))
         clean_text = tokens.apply(' '.join)
 
-        return pd.DataFrame([tokens_len, number_of_questions_in_text, clean_text], 
-                             columns=['tokens_len', 'number_of_questions_in_text', data.name])
+        return pd.concat([tokens_len, number_of_questions_in_text, clean_text], 
+                          keys=['tokens_len', 'number_of_questions_in_text', data.name],
+                          axis=1)
 
     def fit(self, *_):
         return self
