@@ -113,18 +113,19 @@ def log_model(y_true, y_pred, export_path, training_time=None, training_size=Non
     If export_path = "../proj_dir/exported_models/awesome_model.pkl"
     The location of the log file will be "../proj_dir/models/log_models.csv"
     """
-    PATH = "../models/"
+    project_folder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    save_path = os.path.join(project_folder, 'models')
     model = os.path.basename(export_path).split('.')[0]
 
-    if not os.path.exists(os.path.abspath(PATH)):
-        os.makedirs(os.path.abspath(PATH))
+    if not os.path.exists(os.path.abspath(save_path)):
+        os.makedirs(os.path.abspath(save_path))
 
     accuracy = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred)
     recall = recall_score(y_true, y_pred)
 
-    log_file_path = os.path.join(PATH, 'log_models.csv')
+    log_file_path = os.path.join(save_path, 'log_models.csv')
 
     if os.path.isfile(log_file_path):
         with open(log_file_path, 'a') as f:
