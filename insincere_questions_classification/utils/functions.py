@@ -6,17 +6,15 @@ import pickle
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
                              precision_score, recall_score)
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
 
 
-def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', 
+def plot_confusion_matrix(cnf_matrix, classes, normalize=False, title='Confusion matrix',
                           cmap=plt.cm.Blues):
     """ This function prints and plots the confusion matrix.
-    :param cm: Confusion Matrix object
+    :param cnf_matrix: Confusion Matrix object
     :param classes: list with the classed
     :param normalize=True: Applies normalization by setting  it to True.
     :param title="Confusion matrix": Title of the plot.
@@ -24,9 +22,9 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
     """
 
     if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        cnf_matrix = cnf_matrix.astype('float') / cnf_matrix.sum(axis=1)[:, np.newaxis]
 
-    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.imshow(cnf_matrix, interpolation='nearest', cmap=cmap)
     plt.title(title)
     plt.colorbar()
     tick_marks = np.arange(len(classes))
@@ -34,24 +32,23 @@ def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix'
     plt.yticks(tick_marks, classes)
 
     fmt = '.2f' if normalize else 'd'
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
+    thresh = cnf_matrix.max() / 2.
+    for i, j in itertools.product(range(cnf_matrix.shape[0]), range(cnf_matrix.shape[1])):
+        plt.text(j, i, format(cnf_matrix[i, j], fmt),
                  horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
+                 color="white" if cnf_matrix[i, j] > thresh else "black")
 
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
     plt.tight_layout()
 
 
-def train_model(pipeline, train_set,
-                input_cols=['question_text', 'tokens_len'], target_col='target', plot=True,
-                export_path=None):
+def train_model(pipeline, train_set, input_cols='question_text', target_col='target',
+                plot=True, export_path=None):
     """ Helper Function for easier training, evaluating and exporting of a model.
     :param pipeline: Pipeline object that will be trained.
     :param train_set: Dataset that will be used to train the model.
-    :param input_cols=['question_text', 'tokens_len']: string or list of strings that specifies 
+    :param input_cols='question_text': string or list of strings that specifies
         which columns to be used for training the model.
     :param target_col='target': name of the column that contains the result.
     :param plot=True: Marks if the method should show the plot.
@@ -100,7 +97,7 @@ def log_model(y_true, y_pred, export_path, training_time=None, training_size=Non
     """
     Helper function that saves the information of each model that is being exported.
     The csv file will contains following columns:
-        ['model_name', 'accuracy', 'f1', 'precision', 'recall', 
+        ['model_name', 'accuracy', 'f1', 'precision', 'recall',
          'training_time', 'creation_time', 'training_size', 'location_model'],
 
     :param y_true: targeted column
@@ -121,7 +118,7 @@ def log_model(y_true, y_pred, export_path, training_time=None, training_size=Non
         os.makedirs(os.path.abspath(save_path))
 
     accuracy = accuracy_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred)
+    f1_sc = f1_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred)
     recall = recall_score(y_true, y_pred)
 
@@ -131,15 +128,15 @@ def log_model(y_true, y_pred, export_path, training_time=None, training_size=Non
         with open(log_file_path, 'a') as f:
             writer = csv.writer(f)
             writer.writerow(
-                [model, accuracy, f1, precision, recall, 
+                [model, accuracy, f1_sc, precision, recall,
                  training_time, datetime.datetime.now(), training_size, export_path])
     else:
         with open(log_file_path, 'w') as f:
             writer = csv.writer(f)
             writer.writerows([
-                ['model_name', 'accuracy', 'f1', 'precision', 'recall', 
+                ['model_name', 'accuracy', 'f1_score', 'precision', 'recall',
                  'training_time', 'creation_time', 'training_size', 'location_model'],
-                [model, accuracy, f1, precision, recall, 
+                [model, accuracy, f1_sc, precision, recall,
                  training_time, datetime.datetime.now(), training_size, export_path]])
 
 

@@ -11,7 +11,7 @@ class FeatureExctractor(BaseEstimator, TransformerMixin):
     """Custom Transformer that extracts specified column(s).
     :param feature: str or list od string that specifies which features will be extracted.
 
-    Note: FeatureExctractor is not designed to handle data grouped by sample. 
+    Note: FeatureExctractor is not designed to handle data grouped by sample.
     (e.g. a list of dicts).  If your data is structured this way, consider a
     transformer along the lines of `sklearn.feature_extraction.DictVectorizer`.
     """
@@ -32,8 +32,9 @@ class DataPreparator(BaseEstimator, TransformerMixin):
     def __init__(self):
         self.stop_words = stopwords.words('english')
 
-    def find_types_of_sents_in_text(self, text):
-        """ Tokenizes the question text into sentences and finds the different types of sentences.
+    @staticmethod
+    def find_types_of_sents_in_text(text):
+        """Tokenizes the question text into sentences and finds the different types of sentences.
         :param text: Text that will be processed.
         """
         return dict(Counter(map(lambda x: x[-1], nltk.sent_tokenize(text))))
@@ -53,13 +54,13 @@ class DataPreparator(BaseEstimator, TransformerMixin):
         tokens = data.apply(self.clean_raw_data)
 
         tokens_len = tokens.apply(len)
-        unique_sents_type = data.apply(self.find_types_of_sents_in_text)
+        unique_sents_type = data.apply(DataPreparator.find_types_of_sents_in_text)
         number_of_questions_in_text = unique_sents_type.apply(lambda x: x.get('?', 0))
         clean_text = tokens.apply(' '.join)
 
-        return pd.concat([tokens_len, number_of_questions_in_text, clean_text], 
-                          keys=['tokens_len', 'number_of_questions_in_text', data.name],
-                          axis=1)
+        return pd.concat([tokens_len, number_of_questions_in_text, clean_text],
+                         keys=['tokens_len', 'number_of_questions_in_text', data.name],
+                         axis=1)
 
     def fit(self, *_):
         return self
