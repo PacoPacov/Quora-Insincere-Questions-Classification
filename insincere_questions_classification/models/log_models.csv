@@ -1,18 +1,18 @@
 model_name,accuracy,f1,precision,recall,training_time,creation_time,training_size,location_model
 
-sgdclassifier_basic,0.8268572371406179,0.8246475195822455,0.8396784210302437,0.8101452844127063,0:00:05.987000,2019-03-07 21:58:24.453205,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\sgdclassifier_basic.pickle
+sgdclassifier_basic,0.8268572371406179,0.8246475195822455,0.8396784210302437,0.8101452844127063,0:01:42.185871,2019-03-12 10:41:52.846338,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\sgdclassifier_basic.pickle
 
-sgdclassifier_adv,0.8814296910448377,0.8819725307438051,0.8823891878568788,0.8815562669293278,0:00:06.677000,2019-03-07 21:59:29.257205,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\sgdclassifier_adv.pickle
+linearSVC_basic,0.8802747184754363,0.8807640957173667,0.8816151979933385,0.8799146351473365,0:00:50.522000,2019-03-12 10:43:10.592338,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\linearSVC_basic.pickle
 
-linearSVC_basic,0.8802747184754363,0.8807640957173667,0.8816151979933385,0.8799146351473365,0:00:02.829600,2019-03-07 22:01:15.559605,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\linearSVC_basic.pickle
+logisticregression_basic,0.8821515489007136,0.8822778029585067,0.8858183021677974,0.8787654928999425,0:01:19.554000,2019-03-12 10:45:20.667338,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\logisticregression_basic.pickle
 
-linearSVC_adv,0.8821927979210493,0.8826429980276134,0.8837324117501851,0.8815562669293278,0:00:28.634200,2019-03-07 22:02:49.625205,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\linearSVC_adv.pickle
+decisiontree_basic,0.7815864373221136,0.7623429084380611,0.8410914132910765,0.6970778954280555,0:01:08.764000,2019-03-12 10:47:08.099338,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\decisiontree_basic.pickle
 
-logisticregression_basic,0.8821515489007136,0.8822778029585067,0.8858183021677974,0.8787654928999425,0:00:05.611400,2019-03-07 22:03:12.792205,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\logisticregression_basic.pickle
+sgdclassifier_adv,0.8814296910448377,0.8819725307438051,0.8823891878568788,0.8815562669293278,0:01:11.368000,2019-03-12 10:49:12.290338,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\sgdclassifier_adv.pickle
 
-logisticregression_adv,0.8778616507857938,0.8775231634679022,0.8844742766613858,0.8706804563736354,0:00:04.248400,2019-03-07 22:03:51.616006,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\logisticregression_adv.pickle
+linearSVC_adv,0.8821927979210493,0.8826333525108901,0.883795572380874,0.8814741853402281,0:01:26.797000,2019-03-12 10:51:21.944338,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\linearSVC_adv.pickle
 
-decisiontree_basic,0.7812151961390917,0.7620991253644315,0.8401404272151899,0.6973241401953542,0:00:15.080000,2019-03-07 22:04:22.132006,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\decisiontree_basic.pickle
+logisticregression_adv,0.8778616507857938,0.8775231634679022,0.8844742766613858,0.8706804563736354,0:01:42.037305,2019-03-12 10:54:13.784015,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\logisticregression_adv.pickle
 
-decisiontree_adv,0.7864950707420699,0.780025499362516,0.8087600246761258,0.7532627431667077,0:00:16.477000,2019-03-07 22:05:22.324006,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\decisiontree_adv.pickle
+decisiontree_adv,0.7858144619065297,0.77973147814283,0.8068565910188314,0.7543708446195518,0:01:07.311731,2019-03-12 10:55:43.666002,113134,C:\Users\C18244A\Documents\insincere_questions_classification\insincere_questions_classification\models\decisiontree_adv.pickle
 
