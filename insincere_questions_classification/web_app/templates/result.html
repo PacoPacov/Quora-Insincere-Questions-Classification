@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<p style="color:blue;font-size:20;text-align: center;"><b>Results for Question:</b></p>
+<div class="results">
+    {% if prediction == 1}
+    <h2 style="color:red;">Insincere</h2>
+    {% elif prediction == 0}
+    <h2 style="color:blue;">Sincere</h2>
+    {% endif %}
+
+</div>
+
+{%  endblock content %}

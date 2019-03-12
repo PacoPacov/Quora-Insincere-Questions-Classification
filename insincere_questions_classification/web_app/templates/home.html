@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-
+<!--
 <div class="dropdown">
     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
@@ -11,6 +11,16 @@
         <a class="dropdown-item" href="#">{{ model.file_name }}</a>
         {% endfor %}
     </div>
-</div>
+</div> -->
+
+<form action="{{ url_for('predict')}}" method="POST">
+    <p>Enter Your Message Here</p>
+    <!-- <input type="text" name="comment"/> -->
+    <textarea name="message" rows="4" cols="50"></textarea>
+    <br />
+
+    <input type="submit" class="btn-info" value="predict">
+
+</form>
 
 {%  endblock content %}
