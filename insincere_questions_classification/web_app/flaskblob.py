@@ -12,17 +12,15 @@ models = [{'file_name': f} for f in os.listdir(models_path)
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html", models=models)
+    return render_template("home.html")
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
-            message = request.form['message']
-            print(message)
-            my_prediction = make_prediction(message)
-
-    return render_template('result.html', prediction=my_prediction)
+        message = request.form['message']
+        prediction = make_prediction(message)
+    return render_template('result.html', prediction=prediction)
 
 if __name__ == "__main__":
     print(__file__)
