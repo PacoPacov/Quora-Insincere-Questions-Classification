@@ -50,7 +50,12 @@ class DataPreparator(BaseEstimator, TransformerMixin):
         """ Prepares the data by removing stop_words and punctuation and creating
         to additional features 'tokens_len' and 'number_of_questions_in_text'.
         :param data: pd.Series containing the question_text.
+
+        Note that the data should not contain missing values (nan).
         """
+        if type(data) is not pd.Series:
+            raise ValueError("Incorrect type. The argumet should be pandas.Series!")
+
         tokens = data.apply(self.clean_raw_data)
 
         tokens_len = tokens.apply(len)
