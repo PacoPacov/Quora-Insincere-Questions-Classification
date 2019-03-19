@@ -53,8 +53,8 @@ class DataPreparator(BaseEstimator, TransformerMixin):
 
         Note that the data should not contain missing values (nan).
         """
-        if type(data) is not pd.Series:
-            raise ValueError("Incorrect type. The argumet should be pandas.Series!")
+        if not isinstance(data, pd.Series):
+            raise ValueError("Incorrect type. The argument should be pandas.Series!")
 
         tokens = data.apply(self.clean_raw_data)
 
