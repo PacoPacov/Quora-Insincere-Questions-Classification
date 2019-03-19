@@ -27,6 +27,14 @@ class TestFeatureExctractor():
 
 @pytest.mark.data_preparator
 class TestDataPreparator():
+    def check_if_error_is_raised(self, test_df):
+        expected_msg = 'Incorrect type. The argument should be pandas.Series!'
+
+        with pytest.raises(ValueError) as excinfo:
+            result = DataPreparator().transform(test_df)
+
+        assert expected_msg == str(excinfo.value)
+
     def test_if_transformer_works_correctly(self, test_df):
         expected_result = pd.Series(['test column test',
                                      'how possible',
